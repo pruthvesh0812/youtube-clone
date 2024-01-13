@@ -1,3 +1,5 @@
+import { useRecoilValue } from 'recoil';
+import { ShowSideBar } from '@/atoms/ShowSideBar';
 
 const SideBarComponentsArray = [
     {
@@ -30,8 +32,11 @@ const SideBarComponents = ({clicked,imgLink,sideBarComponentTitle}:any)=>{
 }
 
 export default function SideBar(){
-    return (
-        <div className="w-1/3 mx-3">
+    const show = useRecoilValue(ShowSideBar);
+    console.log(show)
+    if(show){
+        return(
+            <div className={`${show ? "w-1/3 mx-3" : " " }`}>
             {
                 SideBarComponentsArray.map(compo => {
                     return(
@@ -44,7 +49,7 @@ export default function SideBar(){
                 })
             }
             <hr className="w-11/12 mx-4 my-3"/>
-            {
+            {/* {
                 SideBarComponentsArray.map(compo => {
                     return(
                         <SideBarComponents 
@@ -54,7 +59,11 @@ export default function SideBar(){
                             />
                     )
                 })
-            }
-        </div>
-    )
+            } */}
+           </div>
+        )
+    }
+    else{
+        return(<div></div>)
+    }
 }
