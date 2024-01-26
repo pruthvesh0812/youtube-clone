@@ -18,3 +18,9 @@ export default async function getClient() {
 }
 
 
+// either put server files in a different folder , and there use {Pool} from 'pg', so that 
+//we have a persistent connection
+
+//or use a different database
+
+// or use Prisma orm
