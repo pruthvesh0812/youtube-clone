@@ -25,7 +25,7 @@ export default function VideoBottomBar() {
                         <button className="flex gap-2 "><img src="/like.png" alt="like" />1.4k</button>  
                 </div>
                 <div className="rounded-r-full -ml-2 flex bg-stone-800/70 py-2 w-18 justify-around px-2 hover:bg-stone-600/70"> 
-                        <button><img src="/dislike.png" alt="dislike" /></button>                 
+                        <button><img src="/dislike.png" alt="dislike" /></button>                  
                 </div>
                 <button className="flex gap-0 bg-stone-800/70 py-2 rounded-full px-3 hover:bg-stone-600/70"><img src="/share.png" alt="share" className="mr-2 " /> Share </button>
                 <button className="rounded-full w-10 h-10 bg-stone-800/70  flex-col items-center pt-0 justify-center text-xl hover:bg-stone-600/70">...</button>

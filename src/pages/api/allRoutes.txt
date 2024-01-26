@@ -1,0 +1,38 @@
+#routes
+
+/login - to login
+/signup - to signup
+/me - to check if user logged in before accessing protected routes
+
+/ - home route - shows video on home page
+/results?search_query= - to get searched videos thumbnails
+/get_video - to play the video in player on clicking the thumbnails
+
+/upload_video - upload video and thumbnail
+
+#db schema
+
+postgres
+
+table - user - pk 
+      - userid
+      - email
+      - password
+
+table - channel - ref userid
+      - channelId
+      - channelName
+      - channelSubs
+      - channelProfilePhoto
+      - userId(reference from user table)
+
+table - videos
+      - videoId
+      - channelId (reference from channel table)
+      - videoTitle
+      - videoDescription
+      - numberOfLikes
+      - numberOfViews
+      - publishedDate
+      - thumbnail photo
+
