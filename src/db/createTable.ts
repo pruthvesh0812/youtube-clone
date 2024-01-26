@@ -1,6 +1,6 @@
-import getClient from "./utils"
+import getClient from "./dbConnect"
 
-async function createTables(){
+export default async function createTables(){
     const client = await getClient();
     const userTableQuery = `
         CREATE TABLE  users (
@@ -21,7 +21,7 @@ async function createTables(){
                 userRefId INTEGER REFERENCES users(userId)
             );
     `
-    await client.query(userTableQuery);
+    await client.query(channelTableQuery);
 
     const videoTableQuery = `
                 CREATE TABLE videos(
@@ -37,4 +37,6 @@ async function createTables(){
     `
 
     await client.query(videoTableQuery);
+
+    
 }
