@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from 'jsonwebtoken';
+import {SignJWT, jwtVerify, type JWTPayload} from 'jose';
+
 import z from 'zod'
 import checkUser from "../../../../server/dist/checkUser"
 import createNewUser from "../../../../server/dist/createNewUser";
@@ -26,7 +28,15 @@ export default async function handler(
     }
 
     const userId = await createNewUser({ email, password });
-    const token = jwt.sign({ userId, email, password }, SECRET, { expiresIn: '3hr' })
+    console.log("new user id",userId)
+    const user = { userId, email, password };
+    const token = new SignJWT({...user})
+                            .setProtectedHeader({alg:'HS256',typ:"JWT"})
+                            .setExpirationTime((Math.floor(Date.now()/1000)) + 60 * 60)
+                            .setIssuedAt((Math.floor(Date.now()/1000)))
+                            .setNotBefore((Math.floor(Date.now()/1000)))
+                            .sign(new TextEncoder().encode(SECRET));
+    // const token = jwt.sign({ userId, email, password }, SECRET, { expiresIn: '3hr' })
 
     res.status(200).json({ token: token, message: "account created successfully" });
 

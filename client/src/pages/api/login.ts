@@ -2,6 +2,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { inputValidate } from "@/lib/inputValidation";
 import checkUser from "../../../../server/dist/checkUser";
 import jwt from 'jsonwebtoken'
+import {SignJWT, jwtVerify, type JWTPayload} from 'jose';   
+
 import { log } from "console";
 import { SECRET } from "@/config";
 
@@ -19,7 +21,17 @@ export default async function handler(
 
     const userId = await checkUser(loginInput);
     if (userId) {
-        const token = jwt.sign({ userId, ...loginInput }, SECRET, { expiresIn: '3hr' });
+        const userid = userId.rows[0].userid;
+        const user = { userid , ...loginInput };
+        const token = await new SignJWT({...user})
+                            .setProtectedHeader({alg:'HS256',typ:"JWT"})
+                            .setExpirationTime((Math.floor(Date.now()/1000)) + 60 * 60)
+                            .setIssuedAt((Math.floor(Date.now()/1000)))
+                            .setNotBefore((Math.floor(Date.now()/1000)))
+                            .sign(new TextEncoder().encode(SECRET));
+
+        console.log(token,"token")                            
+        // jwt.sign({ userId, ...loginInput }, SECRET, { expiresIn: '3hr' });
         res.status(200).json({ token, message: "logged in successfull" });
     }
     else {

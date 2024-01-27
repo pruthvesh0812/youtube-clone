@@ -12,6 +12,7 @@
     "@types/jsonwebtoken": "^9.0.5",
     "@types/pg": "^8.10.9",
     "@types/recoil": "^0.0.9",
+    "jose": "^5.2.0",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "next": "14.0.4",

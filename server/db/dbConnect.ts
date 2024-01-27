@@ -1,8 +1,9 @@
 import {Client} from 'pg'
+const POSTGRES_URl = process.env.POSTGRES_URl;
 export let client:Client;
 export default async function getClient() {
 
-        client = new Client("postgres://eaqngkws:5c8dyAWHhjUln0XHz3-y0MVBDPhD_WDy@batyr.db.elephantsql.com/eaqngkws")
+        client = new Client(POSTGRES_URl)
         await client.connect()
         return client;
 }
