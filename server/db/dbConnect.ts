@@ -1,15 +1,21 @@
 import {Client} from 'pg'
-const POSTGRES_URl = process.env.POSTGRES_URl;
-export let client:Client;
-export default async function getClient() {
+import dotenv from 'dotenv'
 
-        client = new Client(POSTGRES_URl)
+dotenv.config()
+
+export let client:Client;
+
+const POSTGRES_URL = process.env.POSTGRES_URL;
+console.log('POSTGRES_URL:', POSTGRES_URL); 
+export default async function getClient() {
+    console.log('POSTGRES_URL:', POSTGRES_URL); 
+        client = new Client(POSTGRES_URL)
         await client.connect()
         return client;
 }
 
 getClient().then((c)=>{
-console.log(client,"client");
+console.log(client);
 }).catch(err=>{console.log(err,"error")});
 
 

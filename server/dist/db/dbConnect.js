@@ -21,7 +21,7 @@ console.log('POSTGRES_URL:', POSTGRES_URL);
 function getClient() {
     return __awaiter(this, void 0, void 0, function* () {
         console.log('POSTGRES_URL:', POSTGRES_URL);
-        exports.client = new pg_1.Client(POSTGRES_URL);
+        exports.client = new pg_1.Client();
         yield exports.client.connect();
         return exports.client;
     });
