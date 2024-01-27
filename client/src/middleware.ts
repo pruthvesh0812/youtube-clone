@@ -21,14 +21,14 @@ export async function middleware(request:NextRequest){
         //     console.log(data)
         // });
         // console.log("user");
+        const response = NextResponse.next(); // always create instance first of the response going to the next() step
         
         
+        response.cookies.set("user",JSON.stringify(user))
         
-        // NextResponse.next().cookies.set("user",JSON.stringify(user))
-        
-        // return NextResponse.redirect(new URL("/ifLoggedIn",request.url));
+        return response; // very important to return the response and not redirect to "/ifLoggedIn"
     }else{
        console.log("token not found")
-        // return NextResponse.redirect(new URL("/login",request.url));
+        return NextResponse.redirect(new URL("/login",request.url));
     }
 }

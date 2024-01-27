@@ -15,7 +15,7 @@ function createNewUser(user) {
         const createUserQuery = `
         INSERT INTO users (email,password) VALUES ($1,$2) RETURNING userId;
     `;
-        const userId = yield dbConnect_1.client.query(createUserQuery, [user.email, user.password]);
+        const userId = yield dbConnect_1.pool.query(createUserQuery, [user.email, user.password]);
         return userId;
     });
 }
