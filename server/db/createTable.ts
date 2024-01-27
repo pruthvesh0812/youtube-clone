@@ -1,7 +1,9 @@
-import getClient from "./dbConnect"
 
-export default async function createTables(){
-    const client = await getClient();
+import { client } from './dbConnect';
+
+
+export default async function createTables() {
+    
     const userTableQuery = `
         CREATE TABLE  users (
             userId SERIAL PRIMARY KEY NOT NULL,
@@ -38,5 +40,5 @@ export default async function createTables(){
 
     await client.query(videoTableQuery);
 
-    
+
 }

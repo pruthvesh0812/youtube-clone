@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from 'jsonwebtoken';
 import z from 'zod'
-import checkUser from "../../../server/db/checkUser"
-import createNewUser from "../../../server/db/createNewUser";
+import checkUser from "../../../../server/dist/checkUser"
+import createNewUser from "../../../../server/dist/createNewUser";
 import { SECRET } from "@/config";
 import { inputValidate } from "@/lib/inputValidation";
 

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { inputValidate } from "@/lib/inputValidation";
-import checkUser from "../../../server/db/checkUser";
+import checkUser from "../../../../server/dist/checkUser";
 import jwt from 'jsonwebtoken'
 import { log } from "console";
 import { SECRET } from "@/config";
