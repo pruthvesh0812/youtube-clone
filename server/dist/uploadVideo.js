@@ -10,13 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dbConnect_1 = require("./dbConnect");
-function createNewUser(user) {
+function uploadVideo(video) {
     return __awaiter(this, void 0, void 0, function* () {
-        const createUserQuery = `
-        INSERT INTO users (email,password) VALUES ($1,$2) RETURNING userId;
+        const uploadVideoQuery = `
+        INSERT INTO videos (videoTitle,videoDescription,likeCount,viewCount,pulishedDate,thumbnailImageLink,videoLink,channelRefId) VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING videoId;
     `;
-        const userId = yield dbConnect_1.client.query(createUserQuery, [user.email, user.password]);
-        return userId;
+        const videoId = yield dbConnect_1.pool.query(uploadVideoQuery, [video.videoTitle, video.videoDescription, video.likeCount, video.viewCount, video.pulishedDate, video.thumbnailImageLink, video.videoLink, video.channelRefId]);
+        return videoId;
     });
 }
-exports.default = createNewUser;
+exports.default = uploadVideo;

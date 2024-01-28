@@ -25,7 +25,7 @@ export default async function handler(
         const user = { userid , ...loginInput };
         const token = await new SignJWT({...user})
                             .setProtectedHeader({alg:'HS256',typ:"JWT"})
-                            .setExpirationTime((Math.floor(Date.now()/1000)) + 60 * 60)
+                            .setExpirationTime((Math.floor(Date.now()/1000)) + 60 * 60 * 3)
                             .setIssuedAt((Math.floor(Date.now()/1000)))
                             .setNotBefore((Math.floor(Date.now()/1000)))
                             .sign(new TextEncoder().encode(SECRET));

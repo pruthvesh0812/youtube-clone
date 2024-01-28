@@ -6,12 +6,12 @@ dotenv.config()
 export let client:Client;
 
 export const pool = new Pool({
-    host:"@batyr.db.elephantsql.com",
+    host:"batyr.db.elephantsql.com",
     port:5432,
     user:"eaqngkws",
     password:"5c8dyAWHhjUln0XHz3-y0MVBDPhD_WDy",
     database:"eaqngkws",
-    max:10
+    max:15
 })
 
 // const POSTGRES_URL = process.env.POSTGRES_URL;

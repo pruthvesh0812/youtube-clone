@@ -13,7 +13,7 @@ exports.pool = new pg_1.Pool({
     user: "eaqngkws",
     password: "5c8dyAWHhjUln0XHz3-y0MVBDPhD_WDy",
     database: "eaqngkws",
-    max: 10
+    max: 15
 });
 // const POSTGRES_URL = process.env.POSTGRES_URL;
 // console.log('POSTGRES_URL:', POSTGRES_URL); 

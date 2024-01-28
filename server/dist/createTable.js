@@ -19,7 +19,7 @@ function createTables() {
             password VARCHAR(255) NOT NULL
         );
     `;
-        yield dbConnect_1.client.query(userTableQuery);
+        yield dbConnect_1.pool.query(userTableQuery);
         const channelTableQuery = `
             CREATE TABLE channels (
                 channelId SERIAL PRIMARY KEY NOT NULL,
@@ -29,7 +29,7 @@ function createTables() {
                 userRefId INTEGER REFERENCES users(userId)
             );
     `;
-        yield dbConnect_1.client.query(channelTableQuery);
+        yield dbConnect_1.pool.query(channelTableQuery);
         const videoTableQuery = `
                 CREATE TABLE videos(
                     videoId SERIAL PRIMARY KEY NOT NULL,
@@ -39,10 +39,12 @@ function createTables() {
                     viewCount INTEGER NOT NULL,
                     pulishedDate VARCHAR(20) NOT NULL,
                     thumbnailImageLink VARCHAR(1023) NOT NULL,
+                    videoLink VARCHAR(4095) NOT NULL,
                     channelRefId INTEGER REFERENCES channels(channelId)
                 );
     `;
-        yield dbConnect_1.client.query(videoTableQuery);
+        yield dbConnect_1.pool.query(videoTableQuery);
     });
 }
 exports.default = createTables;
+createTables();

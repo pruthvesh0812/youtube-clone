@@ -10,18 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dbConnect_1 = require("./dbConnect");
-function checkUser(user) {
+function createNewChannel(channel) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(user.email);
-        const getUserQuery = `
-        SELECT userId FROM users WHERE email = $1 and password = $2;
+        const createUserChannelQuery = `
+        INSERT INTO channels (channelName,channelSubscribers,channelProfilePhotoLink,userRefId) VALUES ($1,$2,$3,$4) RETURNING channelId;
     `;
-        const userId = yield dbConnect_1.client.query(getUserQuery, [user.email, user.password]);
-        console.log(userId);
-        if (userId.rowCount == 0) {
-            return null;
-        }
-        return userId;
+        const channelId = yield dbConnect_1.pool.query(createUserChannelQuery, [channel.channelName, channel.channelSubscribers, channel.channelProfilePhotoLink, channel.userRefId]);
+        return channelId;
     });
 }
-exports.default = checkUser;
+exports.default = createNewChannel;

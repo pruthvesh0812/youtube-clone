@@ -1,5 +1,5 @@
 
-import { client } from './dbConnect';
+import { pool } from './dbConnect';
 
 
 export default async function createTables() {
@@ -12,7 +12,7 @@ export default async function createTables() {
         );
     `
 
-    await client.query(userTableQuery);
+    await pool.query(userTableQuery);
 
     const channelTableQuery = `
             CREATE TABLE channels (
@@ -23,7 +23,7 @@ export default async function createTables() {
                 userRefId INTEGER REFERENCES users(userId)
             );
     `
-    await client.query(channelTableQuery);
+    await pool.query(channelTableQuery);
 
     const videoTableQuery = `
                 CREATE TABLE videos(
@@ -34,11 +34,14 @@ export default async function createTables() {
                     viewCount INTEGER NOT NULL,
                     pulishedDate VARCHAR(20) NOT NULL,
                     thumbnailImageLink VARCHAR(1023) NOT NULL,
+                    videoLink VARCHAR(4095) NOT NULL,
                     channelRefId INTEGER REFERENCES channels(channelId)
                 );
     `
 
-    await client.query(videoTableQuery);
+    await pool.query(videoTableQuery);
 
 
 }
+
+createTables();

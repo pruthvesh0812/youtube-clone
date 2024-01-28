@@ -1,5 +1,33 @@
 #routes
 
+
+{
+    "email":"pruthvesh@gmail.com",
+    "password":"pruthvesh"
+}
+
+{
+    "channelName":"Sadhguru",
+    "channelSubscribers":100000,
+    "channelProfilePhotoLink":"https://asdfkasldfk.jpg"
+}
+
+{
+    "videoTitle":"Sadhguru live stream",
+    "videoDescription":"live streaming mahashivratri",
+    "likeCount":0,
+    "viewCount":0,
+    "pulishedDate":"28/01/2024",
+    "thumbnailImageLink":"thumbnailaskdflas",
+    "videoLink":"videoLinkdsflsdfasdlf"
+}
+
+{
+    "numVideoToFetch":2,
+    "startVideoId":1 //note this field is exclusive, video will be from 2-3 , and not 1-2
+}
+
+
 /login - to login
 /signup - to signup
 /me - to check if user logged in before accessing protected routes

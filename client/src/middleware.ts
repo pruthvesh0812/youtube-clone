@@ -6,7 +6,7 @@ import {SignJWT, jwtVerify, type JWTPayload} from 'jose';
 import { SECRET } from "@/config";
 
 export const config ={
-    matcher:'/api/ifLoggedIn'
+    matcher:['/api/ifLoggedIn','/api/createChannel','/api/uploadVideo']
 }
 
 export async function middleware(request:NextRequest){

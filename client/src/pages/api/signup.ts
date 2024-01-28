@@ -5,6 +5,7 @@ import {SignJWT, jwtVerify, type JWTPayload} from 'jose';
 import z from 'zod'
 import checkUser from "../../../../server/dist/checkUser"
 import createNewUser from "../../../../server/dist/createNewUser";
+import createNewChannel from "../../../../server/dist/createNewChannel";
 import { SECRET } from "@/config";
 import { inputValidate } from "@/lib/inputValidation";
 
@@ -29,6 +30,7 @@ export default async function handler(
 
     const userId = await createNewUser({ email, password });
     console.log("new user id",userId)
+    const userid = userId.rows[0].userid;
     const user = { userId, email, password };
     const token = new SignJWT({...user})
                             .setProtectedHeader({alg:'HS256',typ:"JWT"})

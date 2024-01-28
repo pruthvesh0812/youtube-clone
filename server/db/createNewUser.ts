@@ -8,6 +8,7 @@ export default async function createNewUser(user: { email: string, password: str
     `
     const userId = await pool.query(createUserQuery, [user.email, user.password]);
     
+    
     return userId;
 
 }
