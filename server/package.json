@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/pg": "^8.11.0",
     "dotenv": "^16.4.1",
+    "natural": "^6.10.4",
     "pg": "^8.11.3"
   }
 }
