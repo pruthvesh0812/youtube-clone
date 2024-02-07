@@ -6,7 +6,7 @@ import {SignJWT, jwtVerify, type JWTPayload} from 'jose';
 import { SECRET } from "@/config";
 
 export const config ={
-    matcher:['/api/ifLoggedIn','/api/createChannel','/api/uploadVideo']
+    matcher:['/api/ifLoggedIn','/api/createChannel','/api/uploadVideo','/api/gcsUrl']
 }
 
 export async function middleware(request:NextRequest){
@@ -25,8 +25,8 @@ export async function middleware(request:NextRequest){
         
         
         response.cookies.set("user",JSON.stringify(user))
-        
-        return response; // very important to return the response and not redirect to "/ifLoggedIn"
+        console.log(response)
+        return response; // very important to return the response and not redirect to "/desired-route"
     }else{
        console.log("token not found")
         return NextResponse.redirect(new URL("/login",request.url));
