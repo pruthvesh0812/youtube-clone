@@ -2,29 +2,25 @@ import { GetSignedUrlConfig, Storage } from '@google-cloud/storage';
 import dotenv from 'dotenv'
 
 dotenv.config();
-
+const bucketName = process.env.BUCKET_NAME;
 export const storage = new Storage({          
     projectId: process.env.PROJECT_ID,
     credentials: {
       client_email: process.env.CLIENT_EMAIL,
-      private_key: process.env.PRIVATE_KEY,
+      private_key: process.env.PRIVATE_KEY.split(String.raw`\n`).join("\n"),
     },
   });
 
-  export  const bucket = storage.bucket(process.env.BUCKET_NAME);
-
+export const getObjectPublicUrl = async (fileName:string) =>{
+    const [metadata] = await storage.bucket(process.env.BUCKET_NAME).file(fileName).getMetadata();
   
-  export const createWriteStream = (filename: string, contentType?: string) => {
-    const ref = bucket.file(filename);
+    // Construct the public URL using the object's name and the bucket's public URL
+    const publicUrl = `https://storage.googleapis.com/${process.env.BUCKET_NAME}/${metadata.name}`;
+  
+    return publicUrl;
+  }
 
-    const stream = ref.createWriteStream({
-        gzip: true,
-        contentType: contentType,
-    });
-
-    return stream;
-};
-
+export const bucket = storage.bucket(process.env.BUCKET_NAME);
 
 export const getSignedUrl = async (filename: string) => {
   try {
