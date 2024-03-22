@@ -13,7 +13,7 @@ export async function middleware(request:NextRequest){
     console.log("reaching ehre")
     const token = request.cookies.get('userTokenCookie')?.value;
     if(token){
-        console.log(token)
+        // console.log(token)
         const user = await jwtVerify(token, new TextEncoder().encode(SECRET))
         console.log(user);
         // let user;
@@ -25,7 +25,7 @@ export async function middleware(request:NextRequest){
         
         
         response.cookies.set("user",JSON.stringify(user))
-        console.log(response)
+        // console.log(response)
         return response; // very important to return the response and not redirect to "/desired-route"
     }else{
        console.log("token not found")

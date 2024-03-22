@@ -12,24 +12,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dbConnect_1 = require("./dbConnect");
 function createTables() {
     return __awaiter(this, void 0, void 0, function* () {
-        const userTableQuery = `
-        CREATE TABLE  users (
-            userId SERIAL PRIMARY KEY NOT NULL,
-            email VARCHAR(255) UNIQUE NOT NULL,
-            password VARCHAR(255) NOT NULL
-        );
-    `;
-        yield dbConnect_1.pool.query(userTableQuery);
-        const channelTableQuery = `
-            CREATE TABLE channels (
-                channelId SERIAL PRIMARY KEY NOT NULL,
-                channelName VARCHAR(255) UNIQUE NOT NULL,
-                channelSubscribers INTEGER NOT NULL,
-                channelProfilePhotoLink VARCHAR(1023) UNIQUE NOT NULL,
-                userRefId INTEGER REFERENCES users(userId)
-            );
-    `;
-        yield dbConnect_1.pool.query(channelTableQuery);
+        // const userTableQuery = `
+        //     CREATE TABLE  users (
+        //         userId SERIAL PRIMARY KEY NOT NULL,
+        //         email VARCHAR(255) UNIQUE NOT NULL,
+        //         password VARCHAR(255) NOT NULL
+        //     );
+        // `
+        // await pool.query(userTableQuery);
+        // const channelTableQuery = `
+        //         CREATE TABLE channels (
+        //             channelId SERIAL PRIMARY KEY NOT NULL,
+        //             channelName VARCHAR(255) UNIQUE NOT NULL,
+        //             channelSubscribers INTEGER NOT NULL,
+        //             channelProfilePhotoLink VARCHAR(1023) UNIQUE NOT NULL,
+        //             userRefId INTEGER REFERENCES users(userId)
+        //         );
+        // `
+        // await pool.query(channelTableQuery);
         const videoTableQuery = `
                 CREATE TABLE videos(
                     videoId SERIAL PRIMARY KEY NOT NULL,
@@ -37,7 +37,7 @@ function createTables() {
                     videoDescription VARCHAR(4095) NOT NULL,
                     likeCount INTEGER NOT NULL,
                     viewCount INTEGER NOT NULL,
-                    pulishedDate VARCHAR(20) NOT NULL,
+                    publishedDate VARCHAR(100) NOT NULL,
                     thumbnailImageLink VARCHAR(1023) NOT NULL,
                     videoLink VARCHAR(4095) NOT NULL,
                     channelRefId INTEGER REFERENCES channels(channelId)

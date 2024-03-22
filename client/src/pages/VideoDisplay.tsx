@@ -1,4 +1,4 @@
-import AppBar from '@/components/AppBar'
+import AppBar from '@/components/AppBar.1'
 import VideoMiniCard from '@/components/VideoMiniCard'
 import React from 'react'
 import VideoBottomBar from '@/components/VideoBottomBar'

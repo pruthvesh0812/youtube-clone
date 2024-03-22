@@ -1,16 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SideBar from '@/components/SideBar'
 import { useState, ChangeEvent, FormEvent } from "react";
 import axios from 'axios';
 import { deleteCookie, getCookie, setCookie } from "cookies-next";
-
+import { videoDetails } from '@/store/atom/VideoDetails';
+import { useRecoilValue , useSetRecoilState} from 'recoil';
 import dotenv from 'dotenv'
 dotenv.config()
+
 
 export default function uV() {
   const [videoSrc, setVideoSrc] = useState<Buffer>();
   const [videoFile, setVideoFile] = useState<File>();
-  const [videoDetails, setVideoDetails] = useState({});
+  // const [videoDetails, setVideoDetails] = useState({});
+
+  const setVideoDetails = useSetRecoilState(videoDetails);
+  const videoDetailsValue = useRecoilValue(videoDetails);
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const inputEle = e.target as HTMLInputElement;
@@ -34,20 +39,35 @@ export default function uV() {
     }
   }
 
+  const handleGcsUpload = async (videoFile: File) =>{
+      // get signed url from gcs to write
+      console.log(videoFile, "videoFile");
+      const res = await axios.get(`/api/gcsUrl?file=${videoFile.name}`);
+      const url = res.data;
+      console.log(url, 'url');
 
+      // upload to the signed url
+
+      const response = await axios.put(url, videoSrc, {
+        headers: {
+          'Content-Type': videoFile.type,
+        },
+      });
+
+      console.log(response, "uploaded to gcs")
+  }
   // to send video file to gcs
-  const handleOnSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleOnSubmit = async (e: FormEvent<HTMLFormElement>,videoDetailsValue:any) => {
+   
     e.preventDefault()
     if (!videoFile) return // very important to handle edge case of file being undefined
 
     try {
-      setCookie('userTokenCookie', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjEsImVtYWlsIjoicHJ1dGh2ZXNoQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoicHJ1dGh2ZXNoIiwiZXhwIjoxNzA4MjcyMjEwLCJpYXQiOjE3MDgyNjE0MTAsIm5iZiI6MTcwODI2MTQxMH0.a8LiNxbryGtR0upYZxwF9BF0f0QtnrHN0UaaX-gMp5I')
+      setCookie('userTokenCookie', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOjEsImVtYWlsIjoicHJ1dGh2ZXNoQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoicHJ1dGh2ZXNoIiwiZXhwIjoxNzA5Mjg0NzU1LCJpYXQiOjE3MDkyNzM5NTUsIm5iZiI6MTcwOTI3Mzk1NX0.-wNi2-vFOjTZ4GBarIawc7bOnLC7tfG2ddxfRWkkZeM')
+
+      // code to send file to http server of next
 
       // const filename = encodeURIComponent(videoFile.name);
-      console.log(videoFile, "videoFile")
-      const res = await axios.get(`/api/gcsUrl?file=${videoFile.name}`);
-      const url = res.data
-      console.log(url, 'url')
       // const formData = new FormData();
       // Object.entries({ ...fields, videoFile }).forEach(([key, value]) => {
       //     console.log(value,'value')
@@ -55,46 +75,41 @@ export default function uV() {
 
       // });
       // formData.set('file',videoFile) //not .append but .set 
-
-      console.log("sdfsad")
-      axios.put(url, videoSrc, {
-        headers: {
-          'Content-Type': videoFile.type,
-        },
-      }).then((res) => {
-        console.log(res, "uploaded to gcs")
-
-        setVideoDetails((prevDetail) => ({
+      // const setVideoDetails = useSetRecoilState(videoDetails);
+      // const videoDetailsValue = useRecoilValue(videoDetails);
+      
+      handleGcsUpload(videoFile).then(()=>{
+        setVideoDetails((prevDetail)=>({
           ...prevDetail,
           likeCount: 0,
           viewCount: 0,
-          pulishedDate: Date(),
+          publishedDate: Date(),
           thumbnailImageLink: "somegebbijsldfk",
-          videoLink:`https://storage.googleapis.com/${process.env.BUCKET_NAME}/${videoFile.name}`
-
+          fileName: videoFile.name
         }))
-
-       
-
-      }).catch((err) => {
-        console.log(err)
+        console.log('video detail', videoDetailsValue);
+        
       })
-
-
-      console.log('video detail', videoDetails)
-
+     
     }
     catch (err) {
       console.log("some error occured:", err)
     }
   }
 
+  useEffect(()=>{
+    if(videoDetailsValue.publishedDate != "" ){
+      const res2 = axios.post("/api/uploadVideoUrl",videoDetailsValue);
+      console.log(res2 , "response 2")
+    }
+  },[videoDetailsValue])
+ 
 
   return (
     <div className="flex">
       <SideBar />
       <div className="px-40 flex flex-col">
-        <form className="flex flex-col" method='post' onSubmit={handleOnSubmit}>
+        <form className="flex flex-col" method='post' onSubmit={(e)=>handleOnSubmit(e,videoDetailsValue)}>
           <input className="my-4 border rounded-md h-8 bg-transparent border-slate-200 hover:border-b-blue-900"
             type="text"
             onChange={(e) => {
